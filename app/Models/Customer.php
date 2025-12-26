@@ -2,21 +2,25 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+
+class Customer extends Model
 {
     use HasFactory;
 
+    protected $table = 'costumer';
+
     protected $fillable = [
         'name',
-        'price',
-        'stock',
+        'phone',
     ];
 
-    public function orderItems()
+
+    public function orders()
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(Order::class);
     }
 }
