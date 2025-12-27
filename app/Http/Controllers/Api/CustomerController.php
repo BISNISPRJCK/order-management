@@ -19,7 +19,7 @@ class CustomerController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string',
-            'phone' => 'required|string|unique:costumer,phone',
+            'phone' => 'required|string|unique:customers,phone',
         ]);
 
         $customer = Customer::create($data);
@@ -38,7 +38,7 @@ class CustomerController extends Controller
     {
         $data = $request->validate([
             'name' => 'sometimes|required|string',
-            'phone' => 'sometimes|required|string|unique:costumer,phone,' . $customer->id,
+            'phone' => 'sometimes|required|string|unique:customers,phone,' . $customer->id,
         ]);
 
         $customer->update($data);

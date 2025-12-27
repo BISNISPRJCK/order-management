@@ -15,7 +15,7 @@ class Order extends Model
     const STATUS_CANCELLED = 'cancelled';
 
     protected $fillable = [
-        'costumer_id',
+        'customer_id',
         'status',
         'total',
     ];
