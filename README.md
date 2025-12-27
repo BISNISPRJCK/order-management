@@ -27,7 +27,7 @@ Backend REST API sederhana untuk manajemen user, produk, customer, dan order men
 ⚙️ Installation
 
 1. Clone Repository
-    - git clone https://github.com/USERNAME/order-management.git
+    - git clone https://github.com/BISNISPRJCK/order-management.git
     - cd order-management
 2. Install Dependency
     - composer install
