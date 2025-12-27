@@ -1,63 +1,143 @@
-<<<<<<< HEAD
-# order-management
-=======
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Simple Order Management System (Laravel REST API)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Backend REST API sederhana untuk manajemen user, produk, customer, dan order menggunakan laravel dan Sanctum Authentication
 
-## About Laravel
+🚀 Tech Stack
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   Laravel 12
+-   PHP 8.2
+-   MySQL / MariaDB
+-   Laravel Sanctum
+-   PHPUnit
+-   Git
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+📌 Fitur
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   Authentication menggunakan Sanctum
+-   Manajemen User (Admin & Staff)
+-   Manajemen Product
+-   Manajemen Customer
+-   Order & Order Items
+-   Otomatis hitung total order
+-   Validasi stok produk
+-   Database transaction
+-   Role-based access (Admin only)
+-   Feature Test
 
-## Learning Laravel
+⚙️ Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+1. Clone Repository
+    - git clone https://github.com/USERNAME/order-management.git
+    - cd order-management
+2. Install Dependency
+    - composer install
+3. Setup Environment
+    - cp .env.example .env
+    - php artisan key:generate
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+🗄️ Database Setup
 
-## Laravel Sponsors
+Edit File .env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=order_management
+DB_USERNAME=root
+DB_PASSWORD=
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Jalankan migration:
+php artisan migrate
 
-### Premium Partners
+👤 Seeder Admin (Optional tapi disarankan)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+    php artisan db:seed
 
-## Contributing
+Default admin :
+Email : admin@mail.com
+Password : password
+Role : admin
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+🔐 Authentication
 
-## Code of Conduct
+Login :
+POST /api/login
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Request :
+{
+"email": "admin@mail.com",
+"password": "password"
+}
 
-## Security Vulnerabilities
+Response :
+{
+"token": "Bearer TOKEN"
+}
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Gunakan Token Pada Header :
 
-## License
+    Authorization: Bearer TOKEN
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
->>>>>>> fe0e4d1 (initial laravel project setup)
+📦 API Endpoint (Ringkas)
+
+User (Admin Only)
+
+    - GET /api/users
+    - POST /api/users
+    - PUT /api/users/{id}
+    - DELETE /api/users/{id}
+
+Product
+
+    - GET /api/products
+    - POST /api/products
+    - PATCH /api/products/{id}
+    - DELETE /api/products/{id}
+
+Customer
+
+    - GET /api/customers
+    - POST /api/customers
+    - PATCH /api/customers/{id}
+    - DELETE /api/customers/{id}
+
+Order
+
+    - POST /api/orders
+
+Request contoh :
+{
+"customer_id": 1,
+"status": "paid",
+"items": [
+{
+"product_id": 1,
+"quantity": 2
+}
+]
+}
+
+🧪 Testing
+
+Menjalankan Seluruh Test:
+php artisan test
+
+Test Mencakup :
+
+    - Order berhasil dibuat
+    - Stok berkurang saat status paid
+    - Order ditolak jika stok tidak cukup
+    - User non-admin tidak bisa akses API user
+
+🧠 Business Rules - Status order: draft, paid, cancelled - Draft tidak mengurangi stok - Paid mengurangi stok - Stok tidak boleh negatif - Total order dihitung otomatis - Semua proses order menggunakan database transaction
+
+📁 Project Structure (Ringkas)
+
+        app/
+    ├── Http/Controllers/Api
+    ├── Models
+    ├── Policies
+    database/
+    ├── migrations
+    ├── seeders
+    tests/
+    ├── Feature
